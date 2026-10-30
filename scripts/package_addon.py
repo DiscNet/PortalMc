@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Validate and package PortalMc as an importable Bedrock .mcaddon (stdlib only)."""
 import json
+import io
 import sys
 import zipfile
 from pathlib import Path
@@ -32,13 +33,23 @@ def build():
     for path in expected:
         assert path.is_file() and path.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"), f"Invalid texture: {path}"
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    with zipfile.ZipFile(OUT, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=8) as zf:
-        for dirname in ("behavior_pack", "resource_pack"):
-            for path in sorted((ROOT / dirname).rglob("*")):
-                if path.is_file():
-                    zf.write(path, path.relative_to(ROOT).as_posix())
-    with zipfile.ZipFile(OUT) as zf:
-        assert zf.testzip() is None
+    # O formato .mcaddon mais portavel e um zip contendo dois .mcpack.
+    with zipfile.ZipFile(OUT, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=8) as addon:
+        for dirname, filename in (("behavior_pack", "PortalMc_Behavior.mcpack"),
+                                  ("resource_pack", "PortalMc_Resources.mcpack")):
+            data = io.BytesIO()
+            with zipfile.ZipFile(data, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=8) as pack:
+                for path in sorted((ROOT / dirname).rglob("*")):
+                    if path.is_file():
+                        pack.write(path, path.relative_to(ROOT / dirname).as_posix())
+            addon.writestr(filename, data.getvalue())
+    with zipfile.ZipFile(OUT) as addon:
+        assert addon.testzip() is None
+        assert sorted(addon.namelist()) == ["PortalMc_Behavior.mcpack", "PortalMc_Resources.mcpack"]
+        for name in addon.namelist():
+            with zipfile.ZipFile(io.BytesIO(addon.read(name))) as nested:
+                assert "manifest.json" in nested.namelist()
+                assert nested.testzip() is None
     print(f"Created: {OUT.relative_to(ROOT)} ({OUT.stat().st_size} bytes)")
 
 if __name__ == "__main__":
