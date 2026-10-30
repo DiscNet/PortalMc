@@ -1,0 +1,29 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "PortalMc | Visuals",
+    "description": "Items and portal surfaces",
+    "uuid": "1517c764-a71d-40b0-9dfc-45f67d0d00ca",
+    "version": [
+      0,
+      1,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      20,
+      80
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "5654de3f-071d-41ed-8454-acbd9b99ad98",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    }
+  ]
+}

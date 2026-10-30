@@ -1,0 +1,20 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "portalmc:portal_blue_wall",
+      "materials": {
+        "default": "entity_alphablend"
+      },
+      "textures": {
+        "default": "textures/entity/portal_blue"
+      },
+      "geometry": {
+        "default": "geometry.portalmc.wall"
+      },
+      "render_controllers": [
+        "controller.render.portalmc"
+      ]
+    }
+  }
+}

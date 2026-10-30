@@ -1,0 +1,54 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "PortalMc | Behavior",
+    "description": "Portal Gun experimental - Bedrock 1.20.80",
+    "uuid": "46835dc9-2209-487e-8eb8-5de85fce17ae",
+    "version": [
+      0,
+      1,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      20,
+      80
+    ]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "0e024730-ec97-4efd-9d05-ec7de9ea4771",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "entry": "scripts/main.js",
+      "uuid": "d32ba817-527c-49a3-99cf-f2954af4ec6d",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "1517c764-a71d-40b0-9dfc-45f67d0d00ca",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "1.10.0"
+    }
+  ]
+}
