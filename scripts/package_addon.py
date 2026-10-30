@@ -30,7 +30,7 @@ def build():
     expected = [ROOT / "resource_pack" / "textures" / "entity" / ("portal_" + c + ".png") for c in ("blue","orange")]
     expected += [ROOT / "resource_pack" / "textures" / "items" / n for n in ("portal_gun_blue.png","portal_gun_orange.png","portal_reset.png")]
     for path in expected:
-        assert path.is_file() and path.read_bytes().startswith(b"\\x89PNG\\r\\n\\x1a\\n"), f"Invalid texture: {path}"
+        assert path.is_file() and path.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"), f"Invalid texture: {path}"
     OUT.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(OUT, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=8) as zf:
         for dirname in ("behavior_pack", "resource_pack"):
