@@ -7,7 +7,7 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "dist" / "PortalMc-1.20.80-v0.1.0.mcaddon"
+OUT = ROOT / "dist" / "PortalMc-1.20.80-v0.2.0.mcaddon"
 
 def validate_pack(folder, kind):
     pack = ROOT / folder
@@ -29,7 +29,9 @@ def build():
     source = ROOT / "behavior_pack" / "scripts" / "main.js"
     assert source.is_file(), "Missing Script API entrypoint"
     expected = [ROOT / "resource_pack" / "textures" / "entity" / ("portal_" + c + ".png") for c in ("blue","orange")]
-    expected += [ROOT / "resource_pack" / "textures" / "items" / n for n in ("portal_gun_blue.png","portal_gun_orange.png","portal_reset.png")]
+    expected += [ROOT / "resource_pack" / "textures" / "items" / "portal_gun.png"]
+    expected += [ROOT / "resource_pack" / "textures" / "entity" / "portal_gun.png"]
+    expected += [ROOT / "resource_pack" / "textures" / "portal_samples" / (n + ".png") for n in ("air","stone","grass","leaves","dirt","wood","sand","water","lava","snow","dark","ore")]
     for path in expected:
         assert path.is_file() and path.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"), f"Invalid texture: {path}"
     OUT.parent.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,31 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "portalmc:portal_pixel",
+      "materials": {
+        "default": "entity_alphablend"
+      },
+      "textures": {
+        "air": "textures/portal_samples/air",
+        "stone": "textures/portal_samples/stone",
+        "grass": "textures/portal_samples/grass",
+        "leaves": "textures/portal_samples/leaves",
+        "dirt": "textures/portal_samples/dirt",
+        "wood": "textures/portal_samples/wood",
+        "sand": "textures/portal_samples/sand",
+        "water": "textures/portal_samples/water",
+        "lava": "textures/portal_samples/lava",
+        "snow": "textures/portal_samples/snow",
+        "dark": "textures/portal_samples/dark",
+        "ore": "textures/portal_samples/ore"
+      },
+      "geometry": {
+        "default": "geometry.portalmc.pixel"
+      },
+      "render_controllers": [
+        "controller.render.portalmc.pixel"
+      ]
+    }
+  }
+}

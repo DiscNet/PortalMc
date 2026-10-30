@@ -2,14 +2,8 @@
   "resource_pack_name": "PortalMc",
   "texture_name": "atlas.items",
   "texture_data": {
-    "portal_gun_blue": {
-      "textures": "textures/items/portal_gun_blue"
-    },
-    "portal_gun_orange": {
-      "textures": "textures/items/portal_gun_orange"
-    },
-    "portal_reset": {
-      "textures": "textures/items/portal_reset"
+    "portal_gun": {
+      "textures": "textures/items/portal_gun"
     }
   }
 }

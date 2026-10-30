@@ -1,0 +1,37 @@
+{
+  "format_version": "1.20.30",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "portalmc:portal_gun",
+      "item": {
+        "portalmc:portal_gun": "query.is_owner_identifier_any('minecraft:player')"
+      },
+      "materials": {
+        "default": "entity"
+      },
+      "textures": {
+        "default": "textures/entity/portal_gun"
+      },
+      "geometry": {
+        "default": "geometry.portalmc.portal_gun"
+      },
+      "animations": {
+        "hold_first_person": "animation.portalmc.gun.first_person",
+        "hold_third_person": "animation.portalmc.gun.third_person"
+      },
+      "scripts": {
+        "animate": [
+          {
+            "hold_first_person": "context.is_first_person == 1.0"
+          },
+          {
+            "hold_third_person": "context.is_first_person == 0.0"
+          }
+        ]
+      },
+      "render_controllers": [
+        "controller.render.portalmc"
+      ]
+    }
+  }
+}

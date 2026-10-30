@@ -1,32 +1,35 @@
-# PortalMc — Portal Gun para Minecraft Bedrock
+# PortalMc v0.2.0 — Bedrock / Pocket Edition 1.20.80
 
-**Versão-alvo:** Bedrock/Pocket Edition **1.20.80** (Android ou Windows) · **Script API:** `@minecraft/server` **1.10.0** · **Add-on:** 0.1.0 (experimental)
+Add-on experimental para Minecraft Bedrock 1.20.80 (API `@minecraft/server` 1.10.0).
 
-Dois portais conectados, com superfícies azuis/laranjas e teletransporte de entidades próximas. Usa um Behavior Pack e um Resource Pack independentes (ambos inclusos no .mcaddon).
+## Instalação Android
+1. Em **Actions → Build PortalMc**, baixe o artefato `PortalMc-1.20.80` do workflow aprovado.
+2. Extraia `PortalMc-1.20.80-v0.2.0.mcaddon` do arquivo ZIP e abra no Minecraft.
+3. Ative **PortalMc | Behavior** e **PortalMc | Visuals** no mundo.
 
-## Como instalar no Android
+## Usar a única arma
+A **Portal Gun** aparece na aba **Equipamentos**, agrupada com armas (grupo espadas). Obtenha via Criativo ou `/give @s portalmc:portal_gun`.
+- **Usar**: dispara o portal azul.
+- **Agachar + usar**: dispara o portal laranja, sem trocar de item.
+- Para limpar ambos: `/scriptevent portalmc:clear` (com permissão de comandos).
 
-1. Abra **Actions → Build PortalMc** e baixe o artefato `PortalMc-1.20.80` (ou use a Release de uma tag `v*`).
-2. Extraia o arquivo `.mcaddon` do ZIP do artefato, toque no .mcaddon e abra com Minecraft.
-3. Ative **PortalMc | Behavior** e **PortalMc | Visuals** no mundo; em builds antigas, confirme as opções experimentais de Script API se necessário.
-4. Obtenha os itens por comandos (com cheats): `/give @s portalmc:portal_gun_blue`, `/give @s portalmc:portal_gun_orange`, `/give @s portalmc:portal_reset`.
-5. Use cada item mirando em uma face de bloco até 28 blocos de distância. Ao criar azul e laranja, caminhe em direção a um deles para atravessar.
+A arma tem geometria 3D de múltiplas peças, mandíbulas metálicas, dois canais luminosos e punho dedicado, exibida ao segurá-la via attachable.
 
-## Limitações conhecidas da v0.1
+## Teletransporte
+O sistema verifica a proximidade **a cada tick**, reconhece jogador olhando para a parede mesmo após o movimento ser bloqueado e evita teletransporte repetitivo por cooldown curto. A chegada é deslocada do plano de destino; o impulso é aproximado. **A execução é imediata quando as condições são reconhecidas**, mas atrasos por chunks não carregados ou FPS/ticks do aparelho ainda podem ocorrer.
 
-- **Não é uma janela 3D**: o interior do portal é uma textura estática, não renderiza o destino.
-- O disparador é implementado com **uso de item consumível e reposição automática**, uma solução de compatibilidade com 1.20.80. A resposta exata do controle por toque precisa de teste em dispositivo.
-- Portais ocupam aproximadamente **1×1 bloco**; a colisão é por proximidade, não há uma abertura real nos blocos.
-- A velocidade e a direção de saída são **aproximadas**, sem física completa de Portal 2.
-- Um par de portais é compartilhado por **todo o mundo**. Se o chunk for descarregado, a aparência visual pode precisar de reentrada.
-- Portais nas dimensões Overworld/Nether/End são experimentais; teste primeiramente no mesmo mundo/dimensão.
-- Não foi validado dentro do cliente Minecraft durante a geração; revisão estática no CI não substitui testes no jogo.
+## Visão de outro ambiente — protótipo
+**Prévia com raycasting** somente em pares de portais **nas paredes**, a até 9 blocos do observador:
+- A Script API amostra o espaço do portal de saída em uma grade de **4×6** pontos.
+- Para cada ponto escolhe uma cor aproximada do tipo de bloco encontrado em até 12 blocos.
+- Exibe pequenas entidades com texturas do mesmo pacote, escolhidas por propriedades sincronizadas e render controller.
+- Atualiza a cada 8 ticks, somente quando um jogador está próximo. Sem observador, remove as entidades da prévia para reduzir custo.
+- Não é uma segunda câmera: tem **baixa resolução, sem texturas reais dos blocos, sem mobs, recorte de câmera ou renderização perfeita**. Pisos e tetos exibem a textura padrão. Portais com destino em chunks descarregados podem apresentar céu/fallback.
 
-## Estrutura
+A prévia será aperfeiçoada após testes no cliente. O empacotamento por GitHub Actions valida sintaxe JS, estrutura JSON e integridade do `.mcaddon`; não executa o Minecraft.
 
-- `behavior_pack/` — itens, entidades sem colisão e JavaScript de teleporte.
-- `resource_pack/` — ícones, modelos, texturas e render controller.
-- `scripts/package_addon.py` — valida JSON e estrutura e empacota os dois packs em `.mcaddon`.
-- `.github/workflows/build.yml` — gera o instalador em Actions; tags `v*` também publicam GitHub Release.
-
-**Nota:** o recurso de ver através do portal não é suportado pela API convencional dessa versão. A v0.1 não anuncia nem simula câmera remota.
+## Código
+- `behavior_pack/scripts/main.js`: disparo, teletransporte, amostragem visual.
+- `resource_pack/attachables/` e `models/entity/portal_gun.geo.json`: modelo 3D.
+- `resource_pack/entity/portal_pixel.entity.json`: renderização da prévia.
+- `scripts/package_addon.py`: valida e empacota os dois `.mcpack` no `.mcaddon`.
