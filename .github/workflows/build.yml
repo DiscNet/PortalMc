@@ -18,6 +18,8 @@ jobs:
           python-version: '3.11'
       - name: Validate JS syntax
         run: node --check behavior_pack/scripts/main.js
+      - name: Script API mock tests
+        run: node tests/test_core.cjs
       - name: Package .mcaddon
         run: python scripts/package_addon.py
       - name: Publish workflow artifact
